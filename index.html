@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="material-studio.css" />
   </head>
   <body>
     <div class="app-shell">
@@ -21,7 +22,7 @@
         <div class="sidebar-label">工作台</div>
         <nav class="nav-list" aria-label="主导航">
           <a class="nav-item active" href="#studio"><span class="nav-glyph">✦</span><span>一键换衣</span><b>当前</b></a>
-          <a class="nav-item" href="#wardrobe"><span class="nav-glyph">▦</span><span>我的衣橱</span><em>12</em></a>
+          <a class="nav-item" href="#wardrobe"><span class="nav-glyph">▦</span><span>服装素材</span></a>
           <a class="nav-item" href="#history"><span class="nav-glyph">◷</span><span>生成记录</span></a>
         </nav>
         <div class="side-rule"></div>
@@ -78,12 +79,13 @@
           </div>
 
           <section class="below-section" id="history"><div class="below-heading"><div><p class="step">继续你的搭配</p><h2>最近的试穿方案</h2></div><button class="view-all">查看全部 →</button></div><div class="recent-grid"><button class="recent-card"><span class="recent-image recent-image-one"></span><span><strong>通勤西装 · 02</strong><small>刚刚 · 匀称身材</small></span><b>↗</b></button><button class="recent-card"><span class="recent-image recent-image-two"></span><span><strong>春日针织 · 01</strong><small>昨天 · 高挑身材</small></span><b>↗</b></button><button class="new-card" id="new-card"><span>＋</span><strong>新建试穿方案</strong></button></div></section>
-          <footer>试衣间 <span>·</span> 让每一件衣服，都先被看见。</footer>
+          <footer>试衣间 <span>·</span> 让每一件衣服，都先被看见。 <a href="https://github.com/dami791226/my-website" target="_blank" rel="noreferrer">源码 · AGPL-3.0</a> <a href="THIRD_PARTY_NOTICES.md" target="_blank">开源致谢</a></footer>
         </div>
       </main>
     </div>
     <input id="model-input" type="file" accept="image/png,image/jpeg,image/webp" hidden /><input id="garment-input" type="file" accept="image/png,image/jpeg,image/webp" hidden /><div class="toast" id="toast" role="status" aria-live="polite"></div>
     <script src="site-config.js"></script>
     <script src="app.js"></script>
+    <script type="module" src="material-studio.js"></script>
   </body>
 </html>

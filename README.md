@@ -38,3 +38,11 @@ XJ_IMAGE_API_KEY=在本机填写服务商密钥
 GitHub Pages 不运行 Node 服务，因此线上可选择模特、上传图片作本地预览，但不能调用 AI 换衣。公开版本会明确提示此限制，且不会提交生成请求。本地 `node server.js` 仍保留原有生成接口。真实出图需要另行部署后端。
 
 构建仅复制前端文件和 `assets/`；服务端、`.env.local`、访问令牌和测试输出不会被发布到静态网站。上传照片不会保存到 GitHub 仓库。
+
+## 服装素材工作台
+
+在服装上传入口下点击“服装抠图与搭配”。支持导入当前服装或上传/拖入/粘贴图片、智能抠图、纯色抠图、擦除/恢复/撤销、15 种特效及透明 PNG/效果总览导出；切换“模特搭配”后，可调整叠加素材的位置、宽度、旋转和透明度，并导出平面搭配图。
+
+“使用这件服装”将当前处理结果回填至服装选择。平面叠加不是真实 AI 换衣，不预测尺码、褶皱和遮挡。智能抠图首次下载约 56 MB 模型，失败时保留原图，复杂背景建议用画笔修整。透明 PNG 可跳过抠图。
+
+此版本复用了 Material Lab Canvas 特效，按 AGPL-3.0-only 提供，见 LICENSE、THIRD_PARTY_NOTICES.md 和 docs/material-lab-analysis.md。重建算法 JavaScript：`node scripts/build-material-effects.js`（Node 24）；发布静态版：`node scripts/build-pages.js`。

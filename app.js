@@ -111,6 +111,7 @@ function selectGarment(item) {
 }
 
 function invalidateResult() {
+  window.dispatchEvent(new Event("fitting-selection-changed"));
   state.generatedImage = null;
   $("#model-image").src = state.modelUrl || models.find((model) => model.id === state.modelId).image;
   $("#model-image").classList.toggle("custom-model", Boolean(state.modelFile));
@@ -272,6 +273,7 @@ $("#share-button").addEventListener("click", async () => {
   } catch { showToast("已取消分享"); }
 });
 $("#reset-button").addEventListener("click", () => {
+  window.dispatchEvent(new Event("fitting-selection-changed"));
   if (state.modelUrl) URL.revokeObjectURL(state.modelUrl);
   if (state.garmentUrl) URL.revokeObjectURL(state.garmentUrl);
   state.modelUrl = state.garmentUrl = null;
@@ -308,6 +310,25 @@ $(".tip-card").addEventListener("click", () => showToast("正面站立、完整�
 
 renderModels();
 renderGarments();
+
+window.FittingStudio = {
+  async garmentBlob() {
+    if (state.garmentFile) return state.garmentFile;
+    const item = garments[state.category].find((garment) => garment.id === state.garmentId);
+    const response = await fetch(photoUrl(item.image, 1400));
+    if (!response.ok) throw new Error("服装示例暂不可用，请先上传自己的服装图");
+    return response.blob();
+  },
+  async personBlob() {
+    if (state.modelFile) return state.modelFile;
+    const response = await fetch(models.find((model) => model.id === state.modelId).image);
+    if (!response.ok) throw new Error("模特图片加载失败");
+    return response.blob();
+  },
+  useGarment(blob) {
+    setGarmentPhoto(new File([blob], "服装素材.png", { type: "image/png" }));
+  },
+};
 
 if (staticPreview) {
   $("#generate-label").textContent = generateLabel;
