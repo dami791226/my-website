@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#161815" />
+    <title>试衣间 · 一键换衣预览</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <a class="brand" href="#top" aria-label="试衣间首页">
+          <span class="brand-mark"><i></i><i></i><i></i></span>
+          <span><strong>试衣间</strong><small>VIRTUAL FIT STUDIO</small></span>
+        </a>
+
+        <div class="sidebar-label">工作台</div>
+        <nav class="nav-list" aria-label="主导航">
+          <a class="nav-item active" href="#studio"><span class="nav-glyph">✦</span><span>一键换衣</span><b>当前</b></a>
+          <a class="nav-item" href="#wardrobe"><span class="nav-glyph">▦</span><span>我的衣橱</span><em>12</em></a>
+          <a class="nav-item" href="#history"><span class="nav-glyph">◷</span><span>生成记录</span></a>
+        </nav>
+        <div class="side-rule"></div>
+        <div class="sidebar-label side-label-row"><span>最近试穿</span><button id="clear-history" class="mini-icon" aria-label="清空记录">+</button></div>
+        <div class="history-item"><span class="history-thumb thumb-one"></span><span><strong>通勤西装</strong><small>刚刚 · 2 张</small></span><i>↗</i></div>
+        <div class="history-item"><span class="history-thumb thumb-two"></span><span><strong>春日针织</strong><small>昨天 · 1 张</small></span><i>↗</i></div>
+
+        <div class="sidebar-bottom">
+          <div class="tip-card"><span class="tip-icon">?</span><span><strong>拍照小贴士</strong><small>正面站立，光线均匀</small></span><b>↗</b></div>
+          <div class="account"><span class="account-avatar">衣</span><span><strong>品牌体验版</strong><small>试衣间工作区</small></span><i>···</i></div>
+        </div>
+      </aside>
+
+      <main class="main-content" id="top">
+        <header class="topbar">
+          <div class="crumbs"><span>我的工作台</span><b>/</b><strong>一键换衣</strong><span class="saved"><i></i> 已自动保存</span></div>
+          <div class="top-actions"><button class="help-button" id="help-button">?</button><button class="share-button" id="share-button">↗ 分享方案</button><span class="top-avatar">衣</span></div>
+        </header>
+
+        <div class="page-body" id="studio">
+          <section class="hero-row">
+            <div><p class="eyebrow"><span></span> VIRTUAL FIT STUDIO</p><h1>让顾客先试，再决定买不买。</h1><p class="hero-copy">上传人物照片，换上你的服装，一键生成真实上身效果。</p></div>
+            <button class="reset-button" id="reset-button">↻ 重新开始</button>
+          </section>
+
+          <div class="workspace-grid">
+            <section class="preview-column" aria-label="试穿预览">
+              <div class="preview-bar"><div class="preview-tabs"><button class="preview-tab active" data-view="result">效果预览</button><button class="preview-tab" data-view="compare">前后对比</button></div><div class="preview-tools"><span class="status-dot"></span><span id="status-text">示例模特</span><span class="bar-divider"></span><button id="zoom-out" aria-label="缩小">−</button><span id="zoom-level">100%</span><button id="zoom-in" aria-label="放大">+</button></div></div>
+              <div class="preview-frame" id="preview-frame">
+                <div class="preview-art" id="preview-art">
+                  <div class="art-glow"></div><img id="model-image" src="assets/models/model-01.jpg" alt="模特 01" /><div class="art-shade"></div>
+                  <div class="art-label"><span class="live-dot"></span><span id="art-label-text">模特 01</span></div><div class="art-note">效果仅作预览 · AI 生成后更换为真实结果</div>
+                  <div class="compare-divider" id="compare-divider"><span>拖动查看</span></div>
+                  <div class="result-pill" id="result-pill" hidden><span>✦</span> AI 试穿效果</div>
+                </div>
+                <div class="empty-preview" id="empty-preview" hidden><div class="empty-symbol">✦</div><strong>上传模特照片开始试穿</strong><span>建议正面站立、全身或半身、光线均匀</span><button id="empty-upload">上传照片</button></div>
+              </div>
+              <div class="preview-footer"><div class="preview-caption"><span class="caption-symbol">◌</span><span><strong id="preview-title">模特 01</strong><small id="preview-subtitle">已选择 1 件服装 · 可开始生成</small></span></div><div class="footer-actions"><button id="change-model">▧ 更换模特</button><button id="download-button" disabled>↓ 下载图片</button></div></div>
+              <div class="note-line"><span>i</span><span>体验版会先展示示意图；接入 AI 后会按人物姿态和服装版型生成试穿结果。</span></div>
+            </section>
+
+            <aside class="control-panel" aria-label="换衣设置">
+              <section class="control-section"><div class="section-heading"><div><p class="step">STEP 01 — 选择模特</p><h2>人物照片</h2></div><span class="count-badge">任选 1 个</span></div>
+                <div class="model-grid" id="model-grid"></div><button class="upload-row" id="upload-model"><span>＋</span><span><strong>上传自己的模特照片</strong><small>JPG / PNG，建议 10 MB 以内</small></span><b>→</b></button>
+              </section>
+              <div class="control-divider"></div>
+              <section class="control-section"><div class="section-heading"><div><p class="step">STEP 02 — 选择服装</p><h2>你的新品</h2></div><span class="count-badge" id="garment-count">1 / 1</span></div>
+                <div class="category-tabs"><button class="category-tab active" data-category="上装">上装 <span>4</span></button><button class="category-tab" data-category="连衣裙">连衣裙 <span>3</span></button><button class="category-tab" data-category="外套">外套 <span>3</span></button></div><div class="garment-grid" id="garment-grid"></div><button class="upload-row" id="upload-garment"><span>＋</span><span><strong>上传自己的服装图</strong><small>建议白底平铺或正面挂拍</small></span><b>→</b></button>
+              </section>
+              <div class="control-divider"></div>
+              <section class="control-section preference-section"><div class="section-heading"><div><p class="step">STEP 03 — 生成偏好</p><h2>画面风格</h2></div></div><div class="style-options"><button class="style-chip active" data-style="自然棚拍"><i class="style-swatch natural"></i>自然棚拍</button><button class="style-chip" data-style="街拍氛围"><i class="style-swatch street"></i>街拍氛围</button><button class="style-chip" data-style="极简白底"><i class="style-swatch clean"></i>极简白底</button></div><button class="advanced-toggle" id="advanced-toggle" aria-expanded="false"><span>更多设置</span><span>⌄</span></button><div class="advanced-content" id="advanced-content" hidden><label><span>输出比例</span><select id="image-ratio"><option value="1024x1024">正方形 1:1</option><option value="1024x1536">竖版 2:3</option><option value="1536x1024">横版 3:2</option></select></label><label><span>补充要求</span><textarea id="image-prompt" rows="2" placeholder="例如：保持脸部和发型不变，衣服褶皱自然"></textarea></label><label class="model-field"><span>生图模型</span><input id="image-model" value="gpt-image-1" autocomplete="off" /></label></div></section>
+              <section class="generate-section"><div class="credit-line"><span>本次试穿</span><strong>✦ AI 生成效果图</strong></div><button class="generate-button" id="generate-button"><span>✦</span><strong id="generate-label">一键生成试穿效果</strong><b>→</b></button><p class="privacy-line">图片会发送至 AI 服务处理，请先取得模特授权</p></section>
+            </aside>
+          </div>
+
+          <section class="below-section" id="history"><div class="below-heading"><div><p class="step">继续你的搭配</p><h2>最近的试穿方案</h2></div><button class="view-all">查看全部 →</button></div><div class="recent-grid"><button class="recent-card"><span class="recent-image recent-image-one"></span><span><strong>通勤西装 · 02</strong><small>刚刚 · 匀称身材</small></span><b>↗</b></button><button class="recent-card"><span class="recent-image recent-image-two"></span><span><strong>春日针织 · 01</strong><small>昨天 · 高挑身材</small></span><b>↗</b></button><button class="new-card" id="new-card"><span>＋</span><strong>新建试穿方案</strong></button></div></section>
+          <footer>试衣间 <span>·</span> 让每一件衣服，都先被看见。</footer>
+        </div>
+      </main>
+    </div>
+    <input id="model-input" type="file" accept="image/png,image/jpeg,image/webp" hidden /><input id="garment-input" type="file" accept="image/png,image/jpeg,image/webp" hidden /><div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="site-config.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
