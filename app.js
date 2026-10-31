@@ -11,10 +11,12 @@ const models = [
 
 const garments = {
   上装: [
-    { id: "tee", name: "柔软棉质短袖", color: "奶白", price: "¥ 199", image: "photo-1521572163474-6864f9cf17ab" },
-    { id: "shirt", name: "垂感通勤衬衫", color: "浅蓝", price: "¥ 329", image: "photo-1596755094514-f87e34085b2c" },
-    { id: "knit", name: "轻薄圆领针织", color: "燕麦", price: "¥ 269", image: "photo-1576566588028-4147f3842f27" },
-    { id: "vest", name: "简约针织背心", color: "浅灰", price: "¥ 229", image: "photo-1620799140408-edc6dcb6d633" },
+    { id: "blush-wrap", name: "粉色轻纱系带上衣", color: "柔雾粉", price: "¥ 39.9", image: "assets/garments/look-01.jpg" },
+    { id: "blue-cardigan", name: "浅蓝印花针织开衫", color: "雾霾蓝", price: "¥ 56.8", image: "assets/garments/look-02.jpg" },
+    { id: "watercolor-top", name: "水彩印花长袖上衣", color: "多彩", price: "¥ 29.55", image: "assets/garments/look-03.jpg" },
+    { id: "floral-blouse", name: "玫瑰印花收腰衬衫", color: "粉色花卉", price: "¥ 39.9", image: "assets/garments/look-04.jpg" },
+    { id: "black-wrap", name: "黑色荷叶边系带衫", color: "曜石黑", price: "¥ 39.9", image: "assets/garments/look-05.jpg" },
+    { id: "black-sheer", name: "黑色轻纱宽松上衣", color: "经典黑", price: "¥ 39.9", image: "assets/garments/look-06.jpg" },
   ],
   连衣裙: [
     { id: "dress-floral", name: "碎花收腰连衣裙", color: "米白花色", price: "¥ 459", image: "photo-1595777457583-95e059d581b8" },
@@ -30,7 +32,7 @@ const garments = {
 
 const state = {
   modelId: models[0].id, modelFile: null, modelUrl: null,
-  category: "上装", garmentId: "tee", garmentFile: null, garmentUrl: null,
+  category: "上装", garmentId: "blush-wrap", garmentFile: null, garmentUrl: null,
   style: "自然棚拍", generatedImage: null, zoom: 100,
 };
 
@@ -40,7 +42,7 @@ const garmentGrid = $("#garment-grid");
 const toast = $("#toast");
 let toastTimer;
 
-function photoUrl(id, width = 520) { return `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${width}&q=84`; }
+function photoUrl(id, width = 520) { return id.startsWith("assets/") ? id : "https://images.unsplash.com/" + id + "?auto=format&fit=crop&w=" + width + "&q=84"; }
 
 function renderModels() {
   modelGrid.innerHTML = "";
@@ -175,13 +177,14 @@ async function generateTryOn() {
   $("#generate-label").textContent = "正在生成试穿效果…";
   $("#status-text").textContent = "AI 生成中";
   try {
+    const selectedGarment = garments[state.category].find((item) => item.id === state.garmentId) ?? garments[state.category][0];
     const garment = state.garmentFile
       ? await readFileAsDataUrl(state.garmentFile)
-      : await readFileAsDataUrl(await (await fetch(photoUrl(garments[state.category].find((item) => item.id === state.garmentId)?.image ?? garments[state.category][0].image, 1000))).blob());
+      : await readFileAsDataUrl(await (await fetch(photoUrl(selectedGarment.image, 1000))).blob());
     const person = state.modelFile ? await readFileAsDataUrl(state.modelFile) : await readFileAsDataUrl(await (await fetch(models.find((item) => item.id === state.modelId).image)).blob());
     const response = await fetch("/api/try-on", {
       method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ personImage: person, garmentImage: garment, style: state.style, details: $("#image-prompt").value.trim(), model: $("#image-model").value.trim(), size: $("#image-ratio").value }),
+      body: JSON.stringify({ personImage: person, garmentImage: garment, garmentName: selectedGarment.name, style: state.style, details: $("#image-prompt").value.trim(), model: $("#image-model").value.trim(), size: $("#image-ratio").value }),
     });
     const payload = await response.json();
     if (!response.ok) throw new Error(payload.error || "生成失败，请稍后重试");
@@ -280,7 +283,7 @@ $("#reset-button").addEventListener("click", () => {
   state.modelFile = state.garmentFile = null;
   state.modelId = models[0].id;
   state.category = "上装";
-  state.garmentId = "tee";
+  state.garmentId = "blush-wrap";
   state.style = "自然棚拍";
   state.zoom = 100;
   state.generatedImage = null;
